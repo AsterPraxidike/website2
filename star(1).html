@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starry Night Sky</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: #000; /* Dark background */
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sky {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff; /* White stars */
+            border-radius: 50%; /* Circular stars */
+            animation: twinkle infinite; /* Use the twinkle animation */
+        }
+
+
+        /* Twinkle animation */
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 1;
+              transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+               transform: scale(0.8);
+            }
+
+        }
+
+          /* Define different star sizes and positions */
+         /* This is just a basic example, you can add many more */
+        .star:nth-child(1) { width: 2px; height: 2px; top: 10%; left: 20%; animation-duration: 3s; }
+        .star:nth-child(2) { width: 3px; height: 3px; top: 30%; left: 50%; animation-duration: 2s; }
+        .star:nth-child(3) { width: 1px; height: 1px; top: 60%; left: 80%; animation-duration: 4s; }
+        .star:nth-child(4) { width: 2px; height: 2px; top: 80%; left: 10%; animation-duration: 2.5s; }
+        .star:nth-child(5) { width: 4px; height: 4px; top: 45%; left: 70%; animation-duration: 3.5s; }
+        .star:nth-child(6) { width: 1px; height: 1px; top: 25%; left: 30%; animation-duration: 1.5s; }
+        .star:nth-child(7) { width: 3px; height: 3px; top: 55%; left: 90%; animation-duration: 2.8s;}
+        .star:nth-child(8) { width: 2px; height: 2px; top: 75%; left: 60%; animation-duration: 3.2s; }
+        .star:nth-child(9) { width: 1px; height: 1px; top: 90%; left: 40%; animation-duration: 1.8s; }
+        .star:nth-child(10) {width: 2px; height: 2px; top: 15%; left: 95%; animation-duration: 2.2s; }
+
+        /* Add more stars here, with different sizes, positions, and animation durations */
+        /* Example of a larger, brighter star (shooting star effect) */
+      .star.shooting-star {
+        width: 5px;
+        height: 5px;
+        background-color: #ffffcc; /* Slightly yellowish white */
+        animation: shoot 3s linear forwards; /* Use the shoot animation */
+      }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+              transform: translateX(calc(50vw + 100px)) translateY(calc(50vh + 100px)) scale(0.1); /* Move diagonally and shrink */
+                opacity: 0;  /* Fade out */
+            }
+        }
+        /* Optional: Add a moon */
+      .moon {
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        width: 80px;
+        height: 80px;
+        background-color: #f0f0f0;  /* Light gray */
+        border-radius: 50%;
+        box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5); /* Soft glow */
+      }
+
+      .credit {
+            position: absolute;
+            bottom: 10px; /* Position at the bottom */
+            left: 10px;  /* Position at the left */
+            color: #fff;
+            text-decoration: none; /* Remove underline */
+            font-family: sans-serif; /* Use a sans-serif font */
+            font-size: 12px;
+            opacity: 0.5; /* Slightly faded out */
+            z-index: 10; /* Ensure it's above the stars */
+        }
+
+        .credit:hover {
+          opacity: 1;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="sky">
+        <!-- Add your stars here -->
+       <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+
+
+      <!-- Occasional shooting star (add more if needed) -->
+      <div class="star shooting-star"></div>
+
+        <!-- Optional moon -->
+        <div class="moon"></div>
+
+      <!-- Credit link -->
+      <a class="credit" href="https://github.com/evansch0" target="_blank" rel="noopener noreferrer">Made by evansch0</a>
+
+
+    </div>
+    <script>
+      // Function to create a new star element
+      function createStar() {
+          const star = document.createElement('div');
+          star.classList.add('star');
+
+          // Randomize size, position, and animation duration
+          const size = Math.random() * 4 + 1; // Size between 1 and 5 pixels
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+
+          const x = Math.random() * 100; // Horizontal position (percentage)
+          const y = Math.random() * 100; // Vertical position (percentage)
+          star.style.left = `${x}%`;
+          star.style.top = `${y}%`;
+
+          const duration = Math.random() * 3 + 1; // Animation duration between 1 and 4 seconds
+          star.style.animationDuration = `${duration}s`;
+
+          return star;
+      }
+
+          // Function to add a lot of stars.  Much better performance than inline divs
+          function populateSky(numStars) {
+            const sky = document.querySelector('.sky');
+            for (let i = 0; i < numStars; i++) {
+                sky.appendChild(createStar());
+            }
+          }
+
+          // Add a shooting star periodically
+        function createShootingStar() {
+          const shootingStar = document.createElement('div');
+          shootingStar.classList.add('star', 'shooting-star');
+
+           // Randomize the starting point for the shooting star
+           const startX = Math.random() * 20; // Limit starting X to keep it on screen more often
+           const startY = Math.random() * 20; // Limit starting Y to keep it on screen more often
+          shootingStar.style.left = `${startX}%`;
+          shootingStar.style.top = `${startY}%`;
+
+          document.querySelector('.sky').appendChild(shootingStar);
+             // Remove the shooting star after the animation finishes.  This is important for performance!
+           shootingStar.addEventListener('animationend', () => {
+             shootingStar.remove();
+          });
+        }
+
+       // Call the functions to generate the starry sky
+          populateSky(200); // Adjust the number of stars as needed
+          setInterval(createShootingStar, 5000); // Create a shooting star every 5 seconds (adjust as needed)
+
+
+    </script>
+</body>
+</html>
